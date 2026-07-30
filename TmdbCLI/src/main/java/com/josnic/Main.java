@@ -1,4 +1,5 @@
 package com.josnic;
+
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -11,40 +12,36 @@ import java.util.Objects;
 public class Main {
     public static void main(String[] args) {
 
-        if (args.length != 2){
+        if (args.length != 2) {
             System.err.println("Missing parameter --type.");
             printUsage();
             return;
         }
 
-        /* Menu options:
-            playing: 1
-            popular: 2
-            top: 3
-            upcoming: 4
+        /*
+         * Menu options:
+         * playing: 1
+         * popular: 2
+         * top: 3
+         * upcoming: 4
          */
         int menuOption = 0; // TODO: Change this given the CLI parameter.
 
-        if (Objects.equals(args[0], "--type")){
-            if(Objects.equals(args[1], "playing")){
+        if (Objects.equals(args[0], "--type")) {
+            if (Objects.equals(args[1], "playing")) {
                 menuOption = 1;
-            }
-            else if (Objects.equals(args[1], "popular")){
+            } else if (Objects.equals(args[1], "popular")) {
                 menuOption = 2;
-            }
-            else if (Objects.equals(args[1], "top")){
+            } else if (Objects.equals(args[1], "top")) {
                 menuOption = 3;
-            }
-            else if (Objects.equals(args[1], "upcoming")){
+            } else if (Objects.equals(args[1], "upcoming")) {
                 menuOption = 4;
-            }
-            else{
+            } else {
                 System.err.println("Invalid option.\n");
                 printUsage();
                 return;
             }
-        }
-        else{
+        } else {
             System.err.println("Unknown verb.");
             printUsage();
             return;
@@ -54,7 +51,7 @@ public class Main {
         String TMDB_KEY = System.getenv("TMDB_KEY");
         String API_KEY = "Bearer " + TMDB_KEY;
 
-        if (TMDB_KEY == null){
+        if (TMDB_KEY == null) {
             System.err.println("No TMDB_KEY defined. Please define TMDB_KEY in the environment.");
             return;
         }
@@ -69,7 +66,7 @@ public class Main {
 
         String theUri;
 
-        switch (menuOption){
+        switch (menuOption) {
             case 1: // playing feature.
                 theUri = nowPlayingStringURI;
                 break;
@@ -105,16 +102,13 @@ public class Main {
             System.out.println("Reponse: " + response.body());
 
             jsonResponse = response.body().toString();
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.err.println("No URI defined: " + e.getMessage());
             return;
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.err.println("Malformed URI: " + e.getMessage());
             return;
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println("IO Error: " + e.getMessage());
             return;
         } catch (InterruptedException e) {
@@ -129,7 +123,7 @@ public class Main {
         System.out.println(tmdbResult);
     }
 
-    public static void printUsage(){
+    public static void printUsage() {
         System.err.println("Usage: --type [TYPE]");
         System.err.println("TYPE: playing: Now playing movies." +
                 "\npopular: Popular movies." +
